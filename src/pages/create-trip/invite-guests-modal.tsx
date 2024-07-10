@@ -1,40 +1,19 @@
 import { X, AtSign, Plus } from 'lucide-react'
-import { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
+import { Button } from '../../components/Button'
 
-interface ModalGuestsProps {
-    closeGuestModal: () => void;
+interface InviteGuestsModalProps {
+    closeGuestModal: () => void
+    emailsToInvite: string[]
+    addNewEmailToInvite: (event: FormEvent<HTMLFormElement>) => void
+    removeEmailFromInvites: (email: string) => void
 }
 
-export function ModalGuests({ closeGuestModal }: ModalGuestsProps) {
+export function InviteGuestsModal(
+    {
+        addNewEmailToInvite, closeGuestModal, emailsToInvite, removeEmailFromInvites
+    }: InviteGuestsModalProps) {
 
-    const [emailsToInvite, setEmailsToInvite] = useState(['artttur.slv@gmail.com']);
-
-    function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const data = new FormData(event.currentTarget);
-        const email = data.get('email')?.toString();
-
-        if(!email) 
-            return;
-
-        if(emailsToInvite.includes(email)) 
-            return
-
-        setEmailsToInvite(
-            [
-                ...emailsToInvite,
-                email
-            ]
-        )
-
-        event.currentTarget.reset();
-    }
-
-    function removeEmailFromInvites(emailToRemove:string) {
-        const newEmailList = emailsToInvite.filter(invite=> invite !== emailToRemove);
-        setEmailsToInvite(newEmailList)
-    }
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -48,10 +27,10 @@ export function ModalGuests({ closeGuestModal }: ModalGuestsProps) {
                 </div>
                 <div className='flex flex-wrap gap-2'>
                     {
-                        emailsToInvite.map((item, i) => (
+                        emailsToInvite.map((email, i) => (
                             <div key={i} className='py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-3'>
-                                <span className='text-zinc-300'>{item}</span>
-                                <button onClick={() => removeEmailFromInvites(item)}><X className='size-5'></X></button>
+                                <span className='text-zinc-300'>{email}</span>
+                                <button onClick={() => removeEmailFromInvites(email)}><X className='size-5'></X></button>
                             </div>
                         ))
                     }
@@ -64,7 +43,9 @@ export function ModalGuests({ closeGuestModal }: ModalGuestsProps) {
                         <AtSign className='size-5 text-zinc-400'/>
                         <input type="text" name="email" placeholder="Digite o e-mail do convidado" className="bg-transparent text-lg placeholder-zinc-400 flex-1 outline-none" />
                     </div>
-                    <button type='submit' className='bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex gap-2 items-center hover:bg-lime-400'>Convidar<Plus className='size-5' /> </button>
+                    <Button type='submit' variant="primary">
+                        Convidar<Plus className='size-5' /> 
+                    </Button>
                 </form>
 
             </div>
