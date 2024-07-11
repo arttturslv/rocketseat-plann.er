@@ -1,13 +1,16 @@
-import { X, User, Mail } from 'lucide-react'
+import { X, User, Mail, Loader2 } from 'lucide-react'
 import { FormEvent } from 'react'
 import { Button } from '../../components/Button'
 
 interface ConfirmTripProps {
     closeConfirmTripModal: () => void
-    createTrip: (event: FormEvent<HTMLFormElement>)=> void
+    createTrip: (event: FormEvent<HTMLFormElement>) => void
+    setOwnerEmail: (email: string) => void
+    setOwnerName: (name: string) => void
+    confirmTripProgressState: number
 }
 
-export function ConfirmTripModal({ closeConfirmTripModal, createTrip }: ConfirmTripProps) {
+export function ConfirmTripModal({ closeConfirmTripModal, confirmTripProgressState, setOwnerName, setOwnerEmail, createTrip }: ConfirmTripProps) {
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -21,18 +24,25 @@ export function ConfirmTripModal({ closeConfirmTripModal, createTrip }: ConfirmT
                 </div>
                 <form onSubmit={createTrip} className="space-y-3">
                     <div className='px-4 h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-                        <User className='size-5 text-zinc-400'/>
-                        <input type="text" name="email" placeholder="Seu nome completo" className="bg-transparent text-md placeholder-zinc-400 flex-1 outline-none" />
+                        <User className='size-5 text-zinc-400' />
+                        <input onChange={(e) => setOwnerName(e.target.value)} type="text" name="name" placeholder="Seu nome completo" className="bg-transparent text-md placeholder-zinc-400 flex-1 outline-none" />
                     </div>
                     <div className='px-4 h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-                        <Mail className='size-5 text-zinc-400'/>
-                        <input type="text" name="email" placeholder="Seu e-mail pessoal" className="bg-transparent text-md placeholder-zinc-400 flex-1 outline-none" />
+                        <Mail className='size-5 text-zinc-400' />
+                        <input onChange={(e) => setOwnerEmail(e.target.value)} type="text" name="email" placeholder="Seu e-mail pessoal" className="bg-transparent text-md placeholder-zinc-400 flex-1 outline-none" />
                     </div>
                     <Button type='submit' variant="primary" size="full">
-                        Confirmar criação da viagem
+                        {
+                            confirmTripProgressState == 1 ?
+                                <>
+                                    <Loader2 className='text-lime-900 animate-spin' />
+                                    Confirmando criação da viagem
+                                </>
+                                :
+                                    'Confirmar criação da viagem'
+                        }
                     </Button>
                 </form>
-
             </div>
         </div>
     )

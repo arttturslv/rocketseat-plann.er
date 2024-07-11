@@ -1,11 +1,11 @@
 import { X, AtSign, Plus } from 'lucide-react'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { Button } from '../../components/Button'
 
 interface InviteGuestsModalProps {
     closeGuestModal: () => void
     emailsToInvite: string[]
-    addNewEmailToInvite: (event: FormEvent<HTMLFormElement>) => void
+    addNewEmailToInvite: (email: string) => void
     removeEmailFromInvites: (email: string) => void
 }
 
@@ -13,7 +13,29 @@ export function InviteGuestsModal(
     {
         addNewEmailToInvite, closeGuestModal, emailsToInvite, removeEmailFromInvites
     }: InviteGuestsModalProps) {
+    
+    const [inviteGuestProgress, setInviteGuestProgress] = useState(0);
 
+    const regexEmailValidator = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        
+    function verifyEmail(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const data = new FormData(event.currentTarget);
+        const email = data.get('email')?.toString();
+
+        if (!email || !regexEmailValidator.test(email)) {
+            setInviteGuestProgress(prev => prev=1);
+            setTimeout(() => {
+                setInviteGuestProgress(prev => prev=0);
+                return;
+            },1500)
+        } else {
+            addNewEmailToInvite(email);
+        }
+
+        event.currentTarget.reset();
+    }
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -38,13 +60,19 @@ export function InviteGuestsModal(
 
                 <div className='w-px h-full bg-zinc-800'></div>
 
-                <form onSubmit={addNewEmailToInvite} className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
+                <form onSubmit={verifyEmail} className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
                     <div className='flex items-center gap-2 px-2 flex-1 '>
-                        <AtSign className='size-5 text-zinc-400'/>
-                        <input type="text" name="email" placeholder="Digite o e-mail do convidado" className="bg-transparent text-lg placeholder-zinc-400 flex-1 outline-none" />
+                        <AtSign className='size-5 text-zinc-400' />
+
+                        {
+                            inviteGuestProgress == 1 ?
+                                <input type="text" name="email" placeholder="E-mail inválido" className="bg-transparent text-lg placeholder-red-400 flex-1 outline-none animate-wiggle" />
+                            :
+                                <input type="text" name="email" placeholder="Digite o e-mail do convidado" className="bg-transparent text-lg placeholder-zinc-400 flex-1 outline-none" />
+                            }
                     </div>
                     <Button type='submit' variant="primary">
-                        Convidar<Plus className='size-5' /> 
+                        Convidar<Plus className='size-5' />
                     </Button>
                 </form>
 
