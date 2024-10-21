@@ -1,30 +1,21 @@
-# React + TypeScript + Vite
+<h1> Plann.er NLW </h1> 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![plann.er screenshot](https://github.com/user-attachments/assets/a0769a05-0382-433a-8316-42a24d0873e0)
 
-Currently, two official plugins are available:
+<h3>Informações do projeto: </h3>
+Esse projeto foi desenvolvido durante a Next Level Week (NLW) da Rocketseat. A principal função foi aproveitar o tempo que tive nas férias para aprender mais sobre React e Tailwind (Tailwind Variants), assim como servir de introdução para o TypeScript. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<h3>Status: </h3> 
+<img width="110px" src="https://i.imgur.com/n8nELsw.png">
 
-## Expanding the ESLint configuration
+<h3> Tecnologias Utilizadas</h3> 
+• React<br>
+• TypeScript<br>
+• Tailwind<br>
+• Tailwind Variants<br>
+• Axios<br>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+<h3> Configuração e Execução</h3>
+• Para utilizar o projeto, basta baixar o repositório e utilizar o comando `npm run dev`
